@@ -1,6 +1,8 @@
 ;;; Code --- summary:
+;;
 ;; Author: Dodge W. Coates
 ;; A miscellaneous assortment of functions for org babel editing
+;;
 ;;; Commentary:
 ;;
 ;;; Code:
