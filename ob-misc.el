@@ -47,7 +47,7 @@ HEADERS defaults to those of the current org block."
     (insert headers)))
 
 (defun org-show-headers ()
-  "throwaway"
+  "Display in the minibuffer the headers for current org block."
   (interactive)
   (message "%s: %s"
            (propertize "Source Headers" 'face '(:foreground "orange"))
