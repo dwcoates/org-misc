@@ -29,11 +29,11 @@
 HEADERS defaults to those of the current org block."
   (let ((headers (or headers (org-get-src-headers))))
     (mapconcat (lambda (header-element)
-                 (propertize (concat header-element " ") 'face
+                 (propertize header-element 'face
                              (if (string-match ":[[[:alnum:]-*]]*" header-element)
                                  '(:foreground "green3")
                                '(foreground "gray20"))))
-               (split-string (org-get-src-headers) "[ ]+")
+               (split-string headers "[ ]+")
                " ")))
 
 (defun org-edit-src-headers (headers)
