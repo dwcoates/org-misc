@@ -22,8 +22,11 @@
   (interactive)
   (save-excursion
     (org-goto-src-headers)
-    (buffer-substring-no-properties (point) (line-end-position))))
+    (split-string
+     (buffer-substring-no-properties (point) (line-end-position))
+     "[ ]+")))
 
+<<<<<<< Updated upstream
 (defun org-propertize-headers (&optional headers)
   "Propertize org block HEADERS string correctly for display.
 HEADERS defaults to those of the current org block."
@@ -36,12 +39,43 @@ HEADERS defaults to those of the current org block."
                (split-string headers "[ ]+")
                " ")))
 
+=======
+(defun org-get-src-headers-string (&optional headers NO-PROPERTIES)
+  "Return the org block HEADERS in the string format.
+If non-nil optional NO-PROPERTIES will strip properties from returned string"
+  (let ((func (if NO-PROPERTIES
+                  (lambda (string) (substring-no-properties string))
+                'identity))
+        (headers (or headers (org-get-src-headers))))
+    (mapconcat (lambda (header) (funcall func header))
+               headers
+               " ")))
+
+(defun org-propertize-headers (&optional headers)
+  "Propertize string version of org block HEADERS list correctly for display.
+HEADERS defaults to those of the current org block."
+  (let* ((headers (or headers (org-get-src-headers)))
+        (language (car headers))
+        (args (cdr headers)))
+    (concat
+     (propertize language 'face '(:foreground "pink" :bold t))
+     " "
+     (mapconcat (lambda (header-element)
+                  (propertize header-element 'face
+                              (if (string-match ":[[[:alnum:]-*]]*" header-element)
+                                  '(:inherit org-list-dt :bold t)
+                                '(:inherit org-verbatim :bold t)
+                                )))
+                args
+                " "))))
+
+>>>>>>> Stashed changes
 (defun org-edit-src-headers (headers)
   "Edit the org block HEADERS for block currently enclosing point."
   (interactive (list
                 (let ((minibuffer-allow-text-properties t))
                   (read-from-minibuffer
-                   "Block headers: "
+                   "Block header: "
                    (org-propertize-headers)))))
   (save-excursion
     (org-goto-src-headers)
@@ -51,9 +85,12 @@ HEADERS defaults to those of the current org block."
 (defun org-show-headers ()
   "Display in the minibuffer the headers for current org block."
   (interactive)
-  (message "%s: %s"
-           (propertize "Source Headers" 'face '(:foreground "orange"))
-           (org-propertize-headers (org-get-src-headers))))
+  (save-excursion
+    (org-goto-src-headers)
+    (let ((headers (org-eldoc-get-src-header)))
+      (message headers)
+      )))
+
 
 (provide 'ob-misc)
 
