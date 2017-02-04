@@ -26,7 +26,6 @@
      (buffer-substring-no-properties (point) (line-end-position))
      "[ ]+")))
 
-<<<<<<< Updated upstream
 (defun org-propertize-headers (&optional headers)
   "Propertize org block HEADERS string correctly for display.
 HEADERS defaults to those of the current org block."
@@ -39,7 +38,6 @@ HEADERS defaults to those of the current org block."
                (split-string headers "[ ]+")
                " ")))
 
-=======
 (defun org-get-src-headers-string (&optional headers NO-PROPERTIES)
   "Return the org block HEADERS in the string format.
 If non-nil optional NO-PROPERTIES will strip properties from returned string"
@@ -69,7 +67,6 @@ HEADERS defaults to those of the current org block."
                 args
                 " "))))
 
->>>>>>> Stashed changes
 (defun org-edit-src-headers (headers)
   "Edit the org block HEADERS for block currently enclosing point."
   (interactive (list
