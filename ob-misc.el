@@ -26,18 +26,6 @@
      (buffer-substring-no-properties (point) (line-end-position))
      "[ ]+")))
 
-(defun org-propertize-headers (&optional headers)
-  "Propertize org block HEADERS string correctly for display.
-HEADERS defaults to those of the current org block."
-  (let ((headers (or headers (org-get-src-headers))))
-    (mapconcat (lambda (header-element)
-                 (propertize header-element 'face
-                             (if (string-match ":[[[:alnum:]-*]]*" header-element)
-                                 '(:foreground "green3")
-                               '(foreground "gray20"))))
-               (split-string headers "[ ]+")
-               " ")))
-
 (defun org-get-src-headers-string (&optional headers NO-PROPERTIES)
   "Return the org block HEADERS in the string format.
 If non-nil optional NO-PROPERTIES will strip properties from returned string"
@@ -79,7 +67,7 @@ HEADERS defaults to those of the current org block."
     (delete-region (point) (line-end-position))
     (insert headers)))
 
-(defun org-show-headers ()
+(defun org-print-src-headers ()
   "Display in the minibuffer the headers for current org block."
   (interactive)
   (save-excursion
