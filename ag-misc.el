@@ -26,6 +26,24 @@ If REDO is non-nil, rebuild the agenda view after visiting it."
   (interactive)
   (org-switch-to-agenda t))
 
+(defun org-agenda-kill-entries (beg end)
+  "Kill multiple lines in the agenda from BEG to END.
+If END is not at the end of line, it wont delete that line."
+  (interactive (if (use-region-p)
+                   (list (line-number-at-pos (region-beginning))
+                         (line-number-at-pos (if (equal (region-end)
+                                                        (save-excursion (org-end-of-line) (point)))
+                                                 (region-end)
+                                               (max (save-excursion
+                                                      (previous-line) (org-end-of-line) (point))
+                                                    (region-beginning)))))
+                 (list (line-number-at-pos) (line-number-at-pos))))
+  (transient-mark-mode nil)
+  (goto-line beg)
+  (loop for i from beg to end
+        collect (ignore-errors (org-agenda-kill)))
+  (transient-mark-mode 1))
+
 (provide 'agenda-misc)
 
 ;;; ag-misc.el ends here
