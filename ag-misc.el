@@ -44,6 +44,6 @@ If END is not at the end of line, it wont delete that line."
         collect (ignore-errors (org-agenda-kill)))
   (transient-mark-mode 1))
 
-(provide 'agenda-misc)
+(provide 'ag-misc)
 
 ;;; ag-misc.el ends here
